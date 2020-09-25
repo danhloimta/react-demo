@@ -8,4 +8,13 @@ const fetchDataCategory = async () => {
     return data;
 }
 
-export default fetchDataCategory;
+const saveCategory = async () => {
+    await request.post(`${category}`);
+
+    return true;
+}
+
+export {
+    fetchDataCategory,
+    saveCategory
+};
