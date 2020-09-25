@@ -21,17 +21,28 @@ class CreateCategory extends Component {
         })
     }
 
+    clear () {
+        this.setState({
+            category: {
+                name: ''
+            }
+        })
+    }
+
     render () {
-        console.log(this.props);
         return (
             <div className="text-left">
-                <div className="form-group">
-                    <label htmlFor="email">Name:</label>
-                    <input name="name" onChange={(e) => this.handleChange(e)} type="text" className="form-control" placeholder="Enter name" id="name" />
-                </div>
-                <div className="form-group">
-                    <button className="btn btn-info">Submit</button>
-                </div>
+                <form>
+                    <div className="form-group">
+                        <label htmlFor="name">Name:</label>
+                        <input name="name" onChange={(e) => this.handleChange(e)} type="text" className="form-control" placeholder="Enter name" id="name" />
+                    </div>
+                    <div className="form-group">
+                        <button className="btn btn-info" type="reset"
+                            onClick={(name) => this.props.getDataForm(this.state.category)}
+                        >Submit</button>
+                    </div>
+                </form>
             </div>
         )
     }

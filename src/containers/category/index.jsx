@@ -8,12 +8,15 @@ class CategoryList extends Component {
         super(props)
         this.state = {
             categories: [],
-            // category: {},
             create: false,
         }
     }
 
     componentDidMount () {
+        this.getDataCategory();
+    }
+
+    getDataCategory () {
         fetchDataCategory().then(res => {
             this.setState({
                 categories: res
@@ -27,12 +30,15 @@ class CategoryList extends Component {
         });
     }
 
-    saveCategory () {
-
+    saveCategory (category) {
+        saveCategory(category)
+            .then(() => {
+                this.getDataCategory();
+            })
     }
 
-    getDataForm (name) {
-
+    getDataForm (category) {
+        this.saveCategory(category);
     }
 
     render () {
@@ -45,7 +51,13 @@ class CategoryList extends Component {
                 <div className="text-right mb-3">
                     <button className="btn btn-warning" onClick={ () => {this.addNew()} }>Add new</button>
                 </div>
-                { this.state.create ? <CreateCategory name={this.state.name} getDataForm={() => this.getDataForm()} /> : null }
+                { this.state.create ?
+                    <CreateCategory
+                        name={this.state.name}
+                        getDataForm={(category) => this.getDataForm(category)}
+                    />
+                    : null
+                }
 
                 <CategoryTable categories={this.state.categories} />
             </div>

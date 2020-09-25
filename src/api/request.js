@@ -16,6 +16,16 @@ export const baseRequest = () => {
     return axios.create({ baseURL: API_URL });
 };
 
+function addLoading () {
+    document.body.classList.add('loading');
+    document.getElementById('loading-component').classList.remove('d-none');
+}
+
+function removeLoading () {
+    document.body.classList.remove('loading');
+    document.getElementById('loading-component').classList.add('d-none');
+}
+
 export const request = (responseType = 'json') => {
     const instance = axios.create({
         baseURL: API_URL,
@@ -24,11 +34,24 @@ export const request = (responseType = 'json') => {
         },
         responseType,
     });
+
+    instance.interceptors.request.use(
+        (config) => {
+            addLoading();
+            return config
+        },
+        (error) => {
+            removeLoading();
+            return Promise.reject(error);
+        });
+
     instance.interceptors.response.use(
         (response) => {
+            removeLoading();
             return response;
         },
         (error) => {
+            removeLoading();
             if (error.response) {
                 if (error.response.status === PAGE_NOT_FOUND) {
                     handle404Error();

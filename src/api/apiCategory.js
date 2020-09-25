@@ -8,8 +8,8 @@ const fetchDataCategory = async () => {
     return data;
 }
 
-const saveCategory = async () => {
-    await request.post(`${category}`);
+const saveCategory = async (obj) => {
+    await request().post(`${category}`, {name: obj.name});
 
     return true;
 }
