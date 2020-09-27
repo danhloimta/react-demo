@@ -5,6 +5,12 @@ class CategoryTable extends React.Component {
         super();
     }
 
+    handleDelete (id) {
+        if (window.confirm('Are you sure')) {
+            this.props.deleteCategory(id)
+        }
+    }
+
     render() {
         return (
             <table className="table table-hover">
@@ -29,7 +35,11 @@ class CategoryTable extends React.Component {
                                             >
                                                 Edit
                                             </button>
-                                            <button className="btn btn-danger">Delete</button>
+                                            <button className="btn btn-danger"
+                                                onClick={(e) => this.handleDelete(id)}
+                                            >
+                                                Delete
+                                            </button>
                                         </td>
                                     </tr>
                                 )

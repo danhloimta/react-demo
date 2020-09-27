@@ -15,7 +15,13 @@ const saveCategory = async (obj) => {
 }
 
 const updateCategory = async (id, obj) => {
-    await request().put(`${category}/${id}`, {name: obj.name})
+    await request().put(`${category}/${id}`, {name: obj.name});
+
+    return true;
+}
+
+const deleteCategory = async (id) => {
+    await request().delete(`${category}/${id}`);
 
     return true;
 }
@@ -23,5 +29,6 @@ const updateCategory = async (id, obj) => {
 export {
     fetchDataCategory,
     saveCategory,
-    updateCategory
+    updateCategory,
+    deleteCategory
 };

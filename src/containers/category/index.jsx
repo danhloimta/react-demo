@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import CategoryTable from '../../components/category/list';
-import {fetchDataCategory, saveCategory, updateCategory} from '../../api/apiCategory';
+import {
+    fetchDataCategory,
+    saveCategory,
+    updateCategory,
+    deleteCategory
+} from '../../api/apiCategory';
 import CreateCategory from '../../components/category/create';
 
 class CategoryList extends Component {
@@ -66,6 +71,13 @@ class CategoryList extends Component {
         })
     }
 
+    deleteCategory(id) {
+        deleteCategory(id)
+            .then(() => {
+                this.getDataCategory();
+            });
+    }
+
     render () {
         return (
             <div className="container">
@@ -91,6 +103,7 @@ class CategoryList extends Component {
                 <CategoryTable
                     categories={this.state.categories}
                     getDataFormEdit={(category) => this.getDataFormEdit(category)}
+                    deleteCategory={(id) => this.deleteCategory(id)}
                 />
             </div>
         )
