@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import CategoryTable from '../../components/category/index';
-import {fetchDataCategory, saveCategory} from '../../api/apiCategory';
+import CategoryTable from '../../components/category/list';
+import {fetchDataCategory, saveCategory, updateCategory} from '../../api/apiCategory';
 import CreateCategory from '../../components/category/create';
 
 class CategoryList extends Component {
@@ -8,7 +8,9 @@ class CategoryList extends Component {
         super(props)
         this.state = {
             categories: [],
-            create: false,
+            showForm: false,
+            category: {},
+            create: true,
         }
     }
 
@@ -24,9 +26,9 @@ class CategoryList extends Component {
         })
     }
 
-    addNew () {
+    showForm () {
         this.setState({
-            create: !this.state.create
+            showForm: !this.state.showForm
         });
     }
 
@@ -37,8 +39,31 @@ class CategoryList extends Component {
             })
     }
 
+    updateCategory (id, category) {
+        updateCategory(id, category)
+            .then(() => {
+                this.setState({
+                    showForm: false,
+                    create: true
+                })
+                this.getDataCategory();
+            })
+    }
+
     getDataForm (category) {
-        this.saveCategory(category);
+        if (this.state.create) {
+            return this.saveCategory(category);
+        }
+
+        this.updateCategory(this.state.category.id, category);
+    }
+
+    getDataFormEdit (category) {
+        this.setState({
+            category: category,
+            showForm: true,
+            create: false
+        })
     }
 
     render () {
@@ -49,17 +74,24 @@ class CategoryList extends Component {
                     <p>Bootstrap is the most popular HTML, CSS...</p>
                 </div>
                 <div className="text-right mb-3">
-                    <button className="btn btn-warning" onClick={ () => {this.addNew()} }>Add new</button>
+                    <button className="btn btn-warning" onClick={ () => {this.showForm()} }>Add new</button>
                 </div>
-                { this.state.create ?
-                    <CreateCategory
-                        name={this.state.name}
-                        getDataForm={(category) => this.getDataForm(category)}
-                    />
+
+                { 
+                    this.state.showForm ?
+                        <CreateCategory
+                            name={this.state.name}
+                            getDataForm={(category) => this.getDataForm(category)}
+                            category={this.state.category}
+                            create={this.state.create}
+                        />
                     : null
                 }
 
-                <CategoryTable categories={this.state.categories} />
+                <CategoryTable
+                    categories={this.state.categories}
+                    getDataFormEdit={(category) => this.getDataFormEdit(category)}
+                />
             </div>
         )
     }

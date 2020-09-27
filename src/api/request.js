@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_URL } from '../configs/index.config';
+import { API_URL } from '../configs/config';
 import { INTERNAL_ERROR, PAGE_NOT_FOUND } from '../configs/API_CODES';
 
 export const handle500Error = () => {

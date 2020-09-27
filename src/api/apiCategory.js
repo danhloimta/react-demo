@@ -14,7 +14,14 @@ const saveCategory = async (obj) => {
     return true;
 }
 
+const updateCategory = async (id, obj) => {
+    await request().put(`${category}/${id}`, {name: obj.name})
+
+    return true;
+}
+
 export {
     fetchDataCategory,
-    saveCategory
+    saveCategory,
+    updateCategory
 };
