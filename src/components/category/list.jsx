@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 
 class CategoryTable extends React.Component {
     constructor (props) {
@@ -6,6 +7,7 @@ class CategoryTable extends React.Component {
     }
 
     handleDelete (id) {
+        this.props.dispatch({type: 'ADD'})
         if (window.confirm('Are you sure')) {
             this.props.deleteCategory(id)
         }
@@ -56,4 +58,18 @@ class CategoryTable extends React.Component {
     }
 }
 
-export default CategoryTable;
+const mapStateToProps = (state, ownProps) => {
+    return {
+        category: state.category
+    }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        getListCategory: () => {
+            dispatch({type: 'GET_LIST'})
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryTable);

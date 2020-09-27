@@ -7,6 +7,7 @@ import {
     deleteCategory
 } from '../../api/apiCategory';
 import CreateCategory from '../../components/category/create';
+import { connect } from 'react-redux';
 
 class CategoryList extends Component {
     constructor (props) {
@@ -20,62 +21,63 @@ class CategoryList extends Component {
     }
 
     componentDidMount () {
-        this.getDataCategory();
+        // this.getDataCategory();
+        // this.props.getListCategory();
     }
 
     getDataCategory () {
-        fetchDataCategory().then(res => {
-            this.setState({
-                categories: res
-            });
-        })
+    //     fetchDataCategory().then(res => {
+    //         this.setState({
+    //             categories: res
+    //         });
+    //     })
     }
 
     showForm () {
-        this.setState({
-            showForm: !this.state.showForm
-        });
+        // this.setState({
+        //     showForm: !this.state.showForm
+        // });
     }
 
     saveCategory (category) {
-        saveCategory(category)
-            .then(() => {
-                this.getDataCategory();
-            })
+        // saveCategory(category)
+        //     .then(() => {
+        //         this.getDataCategory();
+        //     })
     }
 
     updateCategory (id, category) {
-        updateCategory(id, category)
-            .then(() => {
-                this.setState({
-                    showForm: false,
-                    create: true
-                })
-                this.getDataCategory();
-            })
+        // updateCategory(id, category)
+        //     .then(() => {
+        //         this.setState({
+        //             showForm: false,
+        //             create: true
+        //         })
+        //         this.getDataCategory();
+        //     })
     }
 
     getDataForm (category) {
-        if (this.state.create) {
-            return this.saveCategory(category);
-        }
+        // if (this.state.create) {
+        //     return this.saveCategory(category);
+        // }
 
-        this.updateCategory(this.state.category.id, category);
+        // this.updateCategory(this.state.category.id, category);
     }
 
     getDataFormEdit (category) {
-        this.setState({
-            category: category,
-            showForm: true,
-            create: false
-        })
+        // this.setState({
+        //     category: category,
+        //     showForm: true,
+        //     create: false
+        // })
     }
 
     deleteCategory(id) {
-        deleteCategory(id)
-            .then(() => {
-                this.getDataCategory();
-            });
+        // deleteCategory(id)
+        //     .then(() => {
+        //         this.getDataCategory();
+        //     });
     }
 
     render () {
@@ -110,4 +112,18 @@ class CategoryList extends Component {
     }
 }
 
-export default CategoryList;
+const mapStateToProps = (state, ownProps) => {
+    return {
+        category: state.category
+    }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        getListCategory: () => {
+            dispatch({type: 'GET_LIST'})
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryList)

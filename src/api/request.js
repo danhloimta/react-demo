@@ -17,13 +17,13 @@ export const baseRequest = () => {
 };
 
 function addLoading () {
-    document.body.classList.add('loading');
-    document.getElementById('loading-component').classList.remove('d-none');
+    // document.body.classList.add('loading');
+    // document.getElementById('loading-component').classList.remove('d-none');
 }
 
 function removeLoading () {
-    document.body.classList.remove('loading');
-    document.getElementById('loading-component').classList.add('d-none');
+    // document.body.classList.remove('loading');
+    // document.getElementById('loading-component').classList.add('d-none');
 }
 
 export const request = (responseType = 'json') => {
