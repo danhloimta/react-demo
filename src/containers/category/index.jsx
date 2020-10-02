@@ -8,6 +8,7 @@ import {
 } from '../../api/apiCategory';
 import CreateCategory from '../../components/category/create';
 import { connect } from 'react-redux';
+import {fetchCategories} from '../../store/modules/category/action'
 
 class CategoryList extends Component {
     constructor (props) {
@@ -22,7 +23,7 @@ class CategoryList extends Component {
 
     componentDidMount () {
         // this.getDataCategory();
-        // this.props.getListCategory();
+        this.props.getListCategory();
     }
 
     getDataCategory () {
@@ -81,6 +82,7 @@ class CategoryList extends Component {
     }
 
     render () {
+        console.log('render' , this.props.categories);
         return (
             <div className="container">
                 <div className="jumbotron bg-info text-white">
@@ -103,7 +105,7 @@ class CategoryList extends Component {
                 }
 
                 <CategoryTable
-                    categories={this.state.categories}
+                    categories={this.props.categories}
                     getDataFormEdit={(category) => this.getDataFormEdit(category)}
                     deleteCategory={(id) => this.deleteCategory(id)}
                 />
@@ -113,15 +115,17 @@ class CategoryList extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+    const { categoryReducer } = state
     return {
-        category: state.category
+        categories: categoryReducer.categories
     }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
+    console.log('props');
     return {
         getListCategory: () => {
-            dispatch({type: 'GET_LIST'})
+            dispatch(fetchCategories())
         }
     }
 }

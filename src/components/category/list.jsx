@@ -1,6 +1,4 @@
 import React from 'react';
-import {connect} from 'react-redux';
-
 class CategoryTable extends React.Component {
     constructor (props) {
         super();
@@ -58,18 +56,4 @@ class CategoryTable extends React.Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
-    return {
-        category: state.category
-    }
-}
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-    return {
-        getListCategory: () => {
-            dispatch({type: 'GET_LIST'})
-        }
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryTable);
+export default CategoryTable;
