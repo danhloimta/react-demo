@@ -21,3 +21,31 @@ export const actFetchCategories = (categories) => (
         categories
     }
 )
+
+export const editShowForm = () => {
+    return (dispatch) => (
+        dispatch(actShowForm())
+    )
+}
+
+export const actShowForm = () => (
+    {
+        type: types.SHOW_FORM
+    }
+)
+
+export const createCategory = (category) => {
+    return (dispatch) => (
+        saveCategory(category)
+            .then(res => {
+                dispatch(actCreateCategory(res.data))
+            })
+    )
+}
+
+export const actCreateCategory = (category) => (
+    {
+        type: types.CREATE_CATEGORY,
+        category
+    }
+)

@@ -4,11 +4,7 @@ const category = '/categories';
 
 const fetchDataCategory = () => request().get(`${category}`);
 
-const saveCategory = async (obj) => {
-    await request().post(`${category}`, {name: obj.name});
-
-    return true;
-}
+const saveCategory = (obj) => request().post(`${category}`, obj);
 
 const updateCategory = async (id, obj) => {
     await request().put(`${category}/${id}`, {name: obj.name});
