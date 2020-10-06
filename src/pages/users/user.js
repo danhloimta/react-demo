@@ -16,7 +16,6 @@ class User extends Component {
         this.state = {
             users: [],
             timer: null,
-            initTime: new Date(),
             name: '',
             email: '',
             user: {},
@@ -26,16 +25,7 @@ class User extends Component {
     }
 
     componentDidMount() {
-        this.createTimeLoad();
         this.getListUser();
-    }
-
-    createTimeLoad () {
-        setInterval(() => {
-            this.setState({
-                timer: setTime(this.state.initTime),
-            })
-        }, 1000);
     }
 
     handleChange(event) {
