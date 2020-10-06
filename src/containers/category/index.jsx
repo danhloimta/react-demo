@@ -8,7 +8,7 @@ import {
 } from '../../api/apiCategory';
 import CreateCategory from '../../components/category/create';
 import { connect } from 'react-redux';
-import {fetchCategories} from '../../store/modules/category/action'
+import {fetchCategories, editShowForm, createCategory} from '../../store/modules/category/action'
 
 class CategoryList extends Component {
     constructor (props) {
@@ -22,7 +22,6 @@ class CategoryList extends Component {
     }
 
     componentDidMount () {
-        // this.getDataCategory();
         this.props.getListCategory();
     }
 
@@ -59,6 +58,7 @@ class CategoryList extends Component {
     }
 
     getDataForm (category) {
+        this.props.createCategory(category);
         // if (this.state.create) {
         //     return this.saveCategory(category);
         // }
@@ -82,7 +82,7 @@ class CategoryList extends Component {
     }
 
     render () {
-        console.log('render' , this.props.categories);
+        console.log('render', this.props.showForm);
         return (
             <div className="container">
                 <div className="jumbotron bg-info text-white">
@@ -90,16 +90,17 @@ class CategoryList extends Component {
                     <p>Bootstrap is the most popular HTML, CSS...</p>
                 </div>
                 <div className="text-right mb-3">
-                    <button className="btn btn-warning" onClick={ () => {this.showForm()} }>Add new</button>
+                    <button className="btn btn-warning" onClick={ () => {this.props.editShowForm()} }>Add new</button>
                 </div>
 
                 { 
-                    this.state.showForm ?
+                    this.props.showForm ?
                         <CreateCategory
                             name={this.state.name}
                             getDataForm={(category) => this.getDataForm(category)}
                             category={this.state.category}
                             create={this.state.create}
+                            editShowForm={() => this.props.editShowForm()}
                         />
                     : null
                 }
@@ -115,17 +116,26 @@ class CategoryList extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+    console.log('state');
+    console.log(state);
     const { categoryReducer } = state
     return {
-        categories: categoryReducer.categories
+        categories: categoryReducer.categories,
+        showForm: categoryReducer.showForm,
+        category: categoryReducer.category
     }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-    console.log('props');
     return {
         getListCategory: () => {
             dispatch(fetchCategories())
+        },
+        editShowForm: () => {
+            dispatch(editShowForm())
+        },
+        createCategory: (category) => {
+            dispatch(createCategory(category))
         }
     }
 }

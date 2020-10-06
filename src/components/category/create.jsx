@@ -4,9 +4,7 @@ class CreateCategory extends Component {
     constructor(props) {
         super()
         this.state = {
-            category: {
-                name: '',
-            }
+            name: ''
         }
     }
 
@@ -15,10 +13,16 @@ class CreateCategory extends Component {
         const value = event.target.value;
 
         this.setState({
-            category: {
-                [name]: value
-            }
+            [name]: value
         })
+    }
+
+    onSubmit () {
+        let category = {
+            name: this.state.name
+        };
+
+        this.props.getDataForm(category);
     }
 
     render () {
@@ -39,10 +43,15 @@ class CreateCategory extends Component {
                         />
                     </div>
                     <div className="form-group">
-                        <button className="btn btn-info" type="reset"
-                            onClick={(category) => this.props.getDataForm(this.state.category)}
+                        <button className="btn btn-info mr-3" type="reset"
+                            onClick={(e) => this.onSubmit()}
                         >
-                            Submit
+                            Save
+                        </button>
+                        <button className="btn btn-danger" type="reset"
+                            onClick={() => {this.props.editShowForm()}}
+                        >
+                            Cancel
                         </button>
                     </div>
                 </form>
