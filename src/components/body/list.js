@@ -1,53 +1,17 @@
 import React, { Component } from 'react';
 import Pagination from 'react-js-pagination';
-import {isEqual, chunk} from 'lodash';
+import Row from './row';
 
 class List extends Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
-            activePage: 1,
-            total: 0,
-            perPage: 3,
-            pageRange: 1,
-            userPage: [],
-            listActive: [],
-        }
-        this.handlePageChange = this.handlePageChange.bind(this)
+            // showBtn: false,
+        };
     }
 
-    componentDidUpdate (prevProps) {
-        this.handlePaginate(prevProps)
-
-    }
-
-    handleDelete (user) {
-        if(window.confirm('Are you sure')) {
-            this.props.deleteUser(user);
-        }
-    }
-
-    handlePageChange(pageNumber) {
-        this.setState({
-            activePage: pageNumber,
-            listActive: this.state.userPage[pageNumber - 1]
-        });
-    }
-
-    handlePaginate (prevProps) {
-        if (!isEqual(prevProps.users, this.props.users)) {
-            const total = this.props.users.length || 0;
-            const pageRange = Math.ceil(total/this.state.perPage);
-
-            let usersChunk = chunk(this.props.users, this.state.perPage);
-
-            this.setState({
-                total: total,
-                pageRange: pageRange,
-                userPage: usersChunk,
-                listActive: usersChunk[this.state.activePage - 1]
-            })
-        }
+    handlePageChange = (pageNumber) => {
+        this.props.handlePageChange(pageNumber);
     }
 
     render() {
@@ -63,34 +27,15 @@ class List extends Component {
                     </thead>
                     <tbody>
                         {
-                            this.state.listActive?.length > 0 ? (
-                                this.state.listActive.map((user) => {
-                                    const {name, email, id} = user;
+                            this.props.users?.length > 0 ? (
+                                this.props.users.map((user) => {
                                     return (
-                                        <tr
-                                            key={id}
-                                        >
-                                            <td>{name}</td>
-                                            <td className="hover">
-                                                <span>{email}</span>
-                                                <div className="button-action">
-                                                    <button
-                                                        type="reset"
-                                                        className="btn btn-sm btn-success mr-2"
-                                                        onClick={(e) => {this.props.getUserEdit(user)}}
-                                                    >
-                                                        Edit
-                                                    </button>
-                                                    <button
-                                                        type="reset"
-                                                        className="btn btn-sm btn-danger"
-                                                        onClick={(e) => this.handleDelete(user)}
-                                                    >
-                                                        Delete
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        <Row
+                                            key={user.id}
+                                            user={user}
+                                            getUserEdit={(user) => this.props.getUserEdit(user)}
+                                            deleteUser={(user) => this.props.deleteUser(user)}
+                                        />
                                     )
                                 })
                             ) : (
@@ -102,12 +47,12 @@ class List extends Component {
                     </tbody>
                 </table>
                 {
-                    this.state.listActive?.length > 0 ? 
+                    this.props.users?.length > 0 ? 
                         <Pagination
-                            activePage={this.state.activePage}
-                            itemsCountPerPage={this.state.perPage}
-                            totalItemsCount={this.state.total}
-                            pageRangeDisplayed={this.state.pageRange}
+                            activePage={this.props.activePage}
+                            itemsCountPerPage={this.props.perPage}
+                            totalItemsCount={this.props.total}
+                            pageRangeDisplayed={this.props.pageRange}
                             prevPageText="Prev"
                             nextPageText="Next"
                             itemClass="page-item"

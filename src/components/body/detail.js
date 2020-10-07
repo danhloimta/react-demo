@@ -1,8 +1,4 @@
 import React, { Component } from 'react';
-import Form from 'react-validation/build/form';
-import Input from 'react-validation/build/input';
-import CheckButton from 'react-validation/build/button';
-import {required, email} from '../../validation/validation'
 
 class Detail extends Component {
     constructor (props) {
@@ -11,21 +7,17 @@ class Detail extends Component {
     }
 
     onSubmit () {
-        this.form.validateAll();
-
-        if ( this.checkBtn.context._errors.length === 0 ) {
-            this.props.saveUser()
-        }
+        this.props.saveUser()
     }
 
     showForm = () => {
         if (this.props.showForm) {
             return (
                 <>
-                <Form ref={c => { this.form = c }}>
+                <form>
                     <div className="form-detail">
                         <div className="form-group">
-                            <Input
+                            <input
                                 onChange={(e) => {this.props.handleChange(e)}}
                                 name="name" type="name"
                                 className="form-control"
@@ -34,11 +26,10 @@ class Detail extends Component {
                                 required
                                 defaultValue={this.props.edit ? this.props.user.name : ''}
                                 key={this.props.user.id}
-                                validations={[required]}
                             />
                         </div>
                         <div className="form-group">
-                            <Input
+                            <input
                                 onChange={(e) => {this.props.handleChange(e)}}
                                 name="email" type="email"
                                 className="form-control"
@@ -47,7 +38,6 @@ class Detail extends Component {
                                 required
                                 defaultValue={this.props.edit ? this.props.user.email : ''}
                                 key={this.props.user.id}
-                                validations={[required, email]}
                             />
                         </div>
                     </div>
@@ -59,8 +49,7 @@ class Detail extends Component {
                     >
                         Save
                     </button>
-                    <CheckButton style={{ display: 'none' }} ref={c => { this.checkBtn = c }} />
-                </Form>
+                </form>
                 </>
             )
         } else {
