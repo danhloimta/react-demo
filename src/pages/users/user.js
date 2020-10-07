@@ -7,7 +7,6 @@ import './user.css'
 import {
     getFromLocalStorage,
     saveToLocalStorage,
-    setTime
 } from '../../helpers/helper'
 
 class User extends Component {

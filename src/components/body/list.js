@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Pagination from 'react-js-pagination';
-import {isEqual, chunk} from 'lodash';
+import {isEqual, chunk, findLastIndex, last, lastIndexOf} from 'lodash';
+import * as keys from '../../constant/constant';
 
 class List extends Component {
     constructor(props) {
@@ -13,12 +14,36 @@ class List extends Component {
             userPage: [],
             listActive: [],
         }
-        this.handlePageChange = this.handlePageChange.bind(this)
     }
 
     componentDidUpdate (prevProps) {
         this.handlePaginate(prevProps)
+    }
 
+    componentDidMount () {
+        document.addEventListener('keydown', this.handleKeyPress, false);
+        this.handleKeyPress();
+    }
+
+    handleKeyPress = (e) => {
+        let activePage = this.state.activePage;
+        switch (e?.key) {
+            case keys.pageUp:
+                this.handlePageChange(++activePage)
+                break;
+            case keys.pageDown:
+                this.handlePageChange(--activePage)
+                break;
+            case keys.home:
+                this.handleJumpToPage(false)
+                break;
+            case keys.end:
+                this.handleJumpToPage()
+                break;
+
+            default:
+                break;
+        }
     }
 
     handleDelete (user) {
@@ -27,11 +52,30 @@ class List extends Component {
         }
     }
 
-    handlePageChange(pageNumber) {
+    handlePageChange = (pageNumber) => {
+        const listActive = this.state.userPage[pageNumber - 1];
+        if (typeof listActive !== 'undefined') {
+            this.setState({
+                activePage: pageNumber,
+                listActive: listActive
+            });
+        }
+    }
+
+    handleJumpToPage(end = true) {
+        const {userPage} = this.state;
+        let listActive = userPage[0];
+        let activePage = 1;
+
+        if (end) {
+            listActive = last(userPage);
+            activePage = lastIndexOf(userPage, listActive) + 1;
+        }
+        
         this.setState({
-            activePage: pageNumber,
-            listActive: this.state.userPage[pageNumber - 1]
-        });
+            activePage: activePage,
+            listActive: listActive
+        })
     }
 
     handlePaginate (prevProps) {
