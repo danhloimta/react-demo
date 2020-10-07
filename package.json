@@ -14,7 +14,9 @@
     "react-dom": "^16.13.1",
     "react-js-pagination": "^3.0.3",
     "react-scripts": "3.4.3",
-    "uuid": "^8.3.0"
+    "react-validation": "^3.0.7",
+    "uuid": "^8.3.0",
+    "validator": "^13.1.17"
   },
   "scripts": {
     "start": "react-scripts start",

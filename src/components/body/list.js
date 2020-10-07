@@ -54,7 +54,7 @@ class List extends Component {
         return (
             <div className="col-md-6 body-info pt-4">
                 <h5>List</h5>
-                <table className="table table-striped table-bordered table-hover mt-2">
+                <table className="table table-striped table-bordered table-hover mt-2 mb-4">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -108,6 +108,10 @@ class List extends Component {
                             itemsCountPerPage={this.state.perPage}
                             totalItemsCount={this.state.total}
                             pageRangeDisplayed={this.state.pageRange}
+                            prevPageText="Prev"
+                            nextPageText="Next"
+                            itemClass="page-item"
+                            linkClass="page-link"
                             onChange={this.handlePageChange}
                         />
                         : (<></>)
