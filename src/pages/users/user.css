@@ -9,15 +9,3 @@
 form {
     padding-bottom: 20px;
 }
-
-.hover:hover span {
-    display: none;
-}
-
-.hover:hover .button-action{
-    display: block;
-}
-
-.button-action {
-    display: none;
-}

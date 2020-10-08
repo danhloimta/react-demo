@@ -7,7 +7,8 @@ import './user.css'
 import {
     getFromLocalStorage,
     saveToLocalStorage,
-} from '../../helpers/helper'
+} from '../../helpers/helper';
+import {isEqual, chunk, last, lastIndexOf} from 'lodash';
 
 class User extends Component {
     constructor (props) {
@@ -19,12 +20,24 @@ class User extends Component {
             email: '',
             user: {},
             edit: false,
-            showForm: false
+            showForm: false,
+            activePage: 1,
+            total: 0,
+            perPage: 3,
+            pageRange: 1,
+            userPage: [],
+            listActive: [],
         }
     }
 
     componentDidMount() {
         this.getListUser();
+    }
+
+    componentDidUpdate (prevProps, prevState) {
+        if (!isEqual(prevState.users, this.state.users)) {
+            this.handlePaginate();
+        }
     }
 
     handleChange(event) {
@@ -52,6 +65,7 @@ class User extends Component {
             saveToLocalStorage('users', users);
             this.getListUser();
             this.reset()
+            this.handlePaginate();
         } else {
             alert('Enter Name and Email');
         }
@@ -68,6 +82,7 @@ class User extends Component {
     }
 
     getUserEdit (user) {
+        console.log(user);
         this.setState({
             user: user,
             name: user.name,
@@ -81,6 +96,13 @@ class User extends Component {
         let users = this.state.users.filter((i) => i.id !== user.id);
         saveToLocalStorage('users', users);
         this.getListUser();
+
+        if (this.state.listActive.length === 1) {
+            this.setState({
+                activePage: this.state.activePage - 1,
+                listActive: last(this.state.userPage)
+            })
+        }
     }
 
     showForm () {
@@ -98,6 +120,46 @@ class User extends Component {
         })
     }
 
+    handlePaginate () {
+        const total = this.state.users?.length || 0;
+        const perPage = this.state.perPage;
+        const pageRange = Math.ceil(total/perPage);
+
+        let usersChunk = chunk(this.state.users, perPage);
+
+        this.setState({
+            total: total,
+            pageRange: pageRange,
+            userPage: usersChunk,
+            listActive: usersChunk[this.state.activePage - 1]
+        })
+    }
+
+    handlePageChange(pageNumber) {
+        const listActive = this.state.userPage[pageNumber - 1];
+        if (typeof listActive !== 'undefined') {
+            this.setState({
+                activePage: pageNumber,
+                listActive: listActive
+            });
+        }
+    }
+
+    handleJumpToPage(end = true) {
+        const {userPage} = this.state;
+        let listActive = userPage[0];
+        let activePage = 1;
+
+        if (end) {
+            listActive = last(userPage);
+            activePage = lastIndexOf(userPage, listActive) + 1;
+        }
+        this.setState({
+            activePage: activePage,
+            listActive: listActive
+        })
+    }
+
     render() {
         return (
             <>
@@ -105,9 +167,15 @@ class User extends Component {
 
                 <div className="row body">
                     <List 
-                        users={this.state.users}
+                        users={this.state.listActive}
+                        pageRange={this.state.pageRange}
+                        total={this.state.total}
+                        activePage={this.state.activePage}
+                        perPage={this.state.perPage}
+                        handlePageChange={(page) => this.handlePageChange(page)}
                         getUserEdit={(user) => this.getUserEdit(user)}
                         deleteUser={(user) => this.deleteUser(user)}
+                        handleJumpToPage={(end) => this.handleJumpToPage(end)}
                     />
                     <Detail
                         saveUser={(user) => this.saveUser(user)}
