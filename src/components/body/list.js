@@ -6,18 +6,7 @@ import Row from './row';
 class List extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            // activePage: 1,
-            // total: 0,
-            // perPage: 3,
-            // pageRange: 1,
-            // userPage: [],
-            // listActive: [],
-        }
-    }
-
-    componentDidUpdate (prevProps) {
-        // this.props.handlePaginate(prevProps)
+        this.state = {}
     }
 
     componentDidMount () {
@@ -29,7 +18,6 @@ class List extends Component {
         let activePage = this.props.activePage;
         switch (e?.key) {
             case keys.pageUp:
-                console.log(2222);
                 this.props.handlePageChange(++activePage)
                 break;
             case keys.pageDown:
@@ -52,50 +40,6 @@ class List extends Component {
             this.props.deleteUser(user);
         }
     }
-
-    // handlePageChange = (pageNumber) => {
-    //     console.log(pageNumber);
-    //     const listActive = this.state.userPage[pageNumber - 1];
-    //     if (typeof listActive !== 'undefined') {
-    //         this.setState({
-    //             activePage: pageNumber,
-    //             listActive: listActive
-    //         });
-    //     }
-    // }
-
-    // handleJumpToPage(end = true) {
-    //     console.log(77788);
-    //     const {userPage} = this.state;
-    //     let listActive = userPage[0];
-    //     let activePage = 1;
-
-    //     if (end) {
-    //         listActive = last(userPage);
-    //         activePage = lastIndexOf(userPage, listActive) + 1;
-    //     }
-    //     console.log(activePage, end);
-    //     this.setState({
-    //         activePage: activePage,
-    //         listActive: listActive
-    //     })
-    // }
-
-    // handlePaginate (prevProps) {
-    //     if (!isEqual(prevProps.users, this.props.users)) {
-    //         const total = this.props.users.length || 0;
-    //         const pageRange = Math.ceil(total/this.state.perPage);
-
-    //         let usersChunk = chunk(this.props.users, this.state.perPage);
-
-    //         this.setState({
-    //             total: total,
-    //             pageRange: pageRange,
-    //             userPage: usersChunk,
-    //             listActive: usersChunk[this.state.activePage - 1]
-    //         })
-    //     }
-    // };
 
     handlePageChange = (pageNumber) => {
         this.props.handlePageChange(pageNumber);

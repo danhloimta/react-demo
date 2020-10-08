@@ -82,7 +82,6 @@ class User extends Component {
     }
 
     getUserEdit (user) {
-        console.log(user);
         this.setState({
             user: user,
             name: user.name,
@@ -180,6 +179,8 @@ class User extends Component {
                     <Detail
                         saveUser={(user) => this.saveUser(user)}
                         handleChange={(e) => this.handleChange(e)}
+                        name={this.state.name}
+                        email={this.state.email}
                         user={this.state.user}
                         edit={this.state.edit}
                         reset={() => this.reset()}
