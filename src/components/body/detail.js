@@ -14,6 +14,9 @@ class Detail extends Component {
         e.preventDefault();
         if (this.validator.allValid()) {
             this.props.saveUser();
+            this.setState({
+                show: false
+            })
           } else {
             this.validator.showMessages();
             this.forceUpdate();
@@ -33,6 +36,10 @@ class Detail extends Component {
         })
     }
 
+    onValidate (field, rules = []) {
+        return this.validator.message(field, this.props[field], rules, {className: 'text-danger'});
+    }
+
     showForm = () => {
         if (this.props.showForm) {
             return (
@@ -41,7 +48,7 @@ class Detail extends Component {
                     <div className="form-detail">
                         <div className="form-group">
                             <input
-                                onChange={(e) => {this.props.handleChange(e)}}
+                                onChange={(e) => {this.props.handleChange(e); this.onBlur('name')}}
                                 name="name" type="name"
                                 className="form-control"
                                 placeholder="Enter name"
@@ -50,10 +57,11 @@ class Detail extends Component {
                                 defaultValue={this.props.edit ? this.props.user.name : ''}
                                 key={this.props.user.id}
                             />
+                            {this.onValidate('name', ['required'])}
                         </div>
                         <div className="form-group">
                             <input
-                                onChange={(e) => {this.props.handleChange(e)}}
+                                onChange={(e) => {this.props.handleChange(e); this.onBlur('email')}}
                                 name="email" type="text"
                                 className="form-control"
                                 placeholder="Enter email"
@@ -61,9 +69,8 @@ class Detail extends Component {
                                 required
                                 defaultValue={this.props.edit ? this.props.user.email : ''}
                                 key={this.props.user.id}
-                                onBlur={() => this.onBlur('email')}
                             />
-                            {this.validator.message('email', this.props.email, ['required', 'email'], {className: 'text-danger'})}
+                            {this.onValidate('email', ['required', 'email'])}
                         </div>
                     </div>
                     <button type="reset" onClick={(e) => this.props.reset()} className="btn btn-danger mr-4">Cancel</button>
