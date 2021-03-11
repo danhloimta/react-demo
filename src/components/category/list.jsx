@@ -11,36 +11,47 @@ class CategoryTable extends React.Component {
         }
     }
 
+    handleCheckbox (e, id, checkAll = false) {
+        const checked = e.currentTarget.checked;
+        this.props.pushCategoryAction(id, checked, checkAll)
+    }
+
+    handleChecked (id, checkBox) {
+        const index = checkBox.indexOf(id);
+        if (index >= 0) {
+            return true;
+        }
+
+        return false;
+    }
+
     render() {
         return (
             <table className="table table-hover">
                 <thead>
                     <tr>
+                        <th>
+                            <label className="form-check-label">
+                                <input type="checkbox" value="" onClick={(e) => this.handleCheckbox(e, null, true)} />
+                            </label>
+                        </th>
                         <th>Index</th>
                         <th>Name</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     { this.props?.categories?.length > 0 ? (
-                            this.props.categories.map(category => {
+                            this.props.categories.map((category, key) => {
                                 const {id, name} = category;
                                 return (
                                     <tr key={id}>
+                                        <td>
+                                        <label className="form-check-label">
+                                            <input type="checkbox" onChange={e => {}} checked={this.handleChecked(id, this.props.categoriesAction)} onClick={(e) => this.handleCheckbox(e, id)} />
+                                        </label>
+                                        </td>
                                         <td>{id}</td>
                                         <td>{name}</td>
-                                        <td>
-                                            <button className="btn btn-success mr-1"
-                                                onClick={(e) => { this.props.getDataFormEdit(category) }}
-                                            >
-                                                Edit
-                                            </button>
-                                            <button className="btn btn-danger"
-                                                onClick={(e) => this.handleDelete(id)}
-                                            >
-                                                Delete
-                                            </button>
-                                        </td>
                                     </tr>
                                 )
                             })

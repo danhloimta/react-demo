@@ -49,3 +49,18 @@ export const actCreateCategory = (category) => (
         category
     }
 )
+
+export const pushCategoryAction = (id, checked, checkAll = false) => (
+    (dispatch) => (
+        dispatch(actPushCategory(id, checked, checkAll))
+    )
+)
+
+export const actPushCategory = (id, checked, checkAll) => (
+    {
+        type: types.PUSH_CATEGORY,
+        id,
+        checked,
+        checkAll
+    }
+)
