@@ -4,7 +4,6 @@ class CreateCategory extends Component {
     constructor(props) {
         super()
         this.state = {
-            name: ''
         }
     }
 

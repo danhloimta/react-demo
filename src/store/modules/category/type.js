@@ -5,3 +5,4 @@ export const UPDATE_CATEGORY = 'UPDATE_CATEGORY';
 export const DELETE_CATEGORY = 'DELETE_CATEGORY';
 export const PUSH_CATEGORY = 'PUSH_CATEGORY';
 export const SHOW_FORM = 'SHOW_FORM';
+export const EDIT_CATEGORY = 'EDIT_CATEGORY'

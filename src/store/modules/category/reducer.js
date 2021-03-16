@@ -12,16 +12,27 @@ const categoryReducer = (state = categoryInitialState, action) => {
     let {id, category, categories} = action;
     switch (action.type) {
         case types.FETCH_CATEGORIES:
-            return {...state, categories: categories}
+            return {...state, categories}
         case types.CREATE_CATEGORY:
             return {
                 ...state,
                 categories: [...state.categories, category],
                 category: category
             }
-        case 'UPDATE':
-            return state
-        case 'DELETE':
+        case types.EDIT_CATEGORY:
+            return {
+                ...state,
+                category: category,
+                create: false
+            }
+        case types.UPDATE_CATEGORY:
+            categories = updateCategory([...state.categories], category)
+            return {
+                ...state,
+                categories,
+                category
+            }
+        case types.DELETE_CATEGORY:
             return state
         case types.SHOW_FORM:
             return {...state, showForm: !state.showForm}
@@ -33,16 +44,11 @@ const categoryReducer = (state = categoryInitialState, action) => {
 }
 
 const handlePushCategory = (state, id, checked, checkAll) => {
-    console.log('checkAll', checkAll);
-    if (checked && checkAll) {
-        let categoryIds = state.categories.map(cate => cate.id);
-
-        return {...state, categoriesAction: categoryIds}
-    } else if (!checked && checkAll) {
-        return {...state, categoriesAction: []}
+    if (checkAll) {
+        return handleCheckAll(state, checked)
     }
 
-    if (checked)  {
+    if (checked) {
         return {...state, categoriesAction: [...state.categoriesAction, id]}
     }
 
@@ -56,6 +62,26 @@ const handlePushCategory = (state, id, checked, checkAll) => {
     }
 
     return {...state}
+}
+
+const handleCheckAll = (state, checked) => {
+    if (checked) {
+        let categoryIds = state.categories.map(cate => cate.id);
+
+        return {...state, categoriesAction: categoryIds}
+    } else if (!checked) {
+        return {...state, categoriesAction: []}
+    }
+}
+
+const updateCategory = (categories, newCategory) => {
+    categories.map((category, key) => {
+        if (category.id === newCategory.id) {
+            categories[key] = newCategory
+        }
+    })
+
+    return categories;
 }
 
 export default categoryReducer;

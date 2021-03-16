@@ -2,7 +2,7 @@ import * as types from './type';
 import {
     fetchDataCategory,
     saveCategory,
-    updateCategory,
+    updateCategoryApi,
     deleteCategory
 } from '../../../api/apiCategory';
 
@@ -62,5 +62,33 @@ export const actPushCategory = (id, checked, checkAll) => (
         id,
         checked,
         checkAll
+    }
+)
+
+export const editCategory = (category) => (
+    (dispatch) => (
+        dispatch(actEditCategory(category))
+    )
+)
+
+export const actEditCategory = (category) => (
+    {
+        type: types.EDIT_CATEGORY,
+        category
+    }
+)
+
+export const updateCategory = (id, category) => (
+    (dispatch) => (
+        updateCategoryApi(id, category)
+            .then((res) => dispatch(actUpdateCategory(id, res.data)))
+    )
+)
+
+export const actUpdateCategory = (id, category) => (
+    {
+        type: types.UPDATE_CATEGORY,
+        id,
+        category
     }
 )

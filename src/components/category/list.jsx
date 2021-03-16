@@ -2,6 +2,9 @@ import React from 'react';
 class CategoryTable extends React.Component {
     constructor (props) {
         super();
+        this.state = {
+            checkAll: false
+        }
     }
 
     handleDelete (id) {
@@ -16,8 +19,8 @@ class CategoryTable extends React.Component {
         this.props.pushCategoryAction(id, checked, checkAll)
     }
 
-    handleChecked (id, checkBox) {
-        const index = checkBox.indexOf(id);
+    handleChecked (id, categoriesAction) {
+        const index = categoriesAction.indexOf(id);
         if (index >= 0) {
             return true;
         }
@@ -32,7 +35,10 @@ class CategoryTable extends React.Component {
                     <tr>
                         <th>
                             <label className="form-check-label">
-                                <input type="checkbox" value="" onClick={(e) => this.handleCheckbox(e, null, true)} />
+                                <input type="checkbox" id="check-all"
+                                    onChange={() => {}}
+                                    checked={this.props.categoriesAction.length === this.props.categories.length}
+                                    onClick={(e) => this.handleCheckbox(e, null, true)} />
                             </label>
                         </th>
                         <th>Index</th>
@@ -47,7 +53,10 @@ class CategoryTable extends React.Component {
                                     <tr key={id}>
                                         <td>
                                         <label className="form-check-label">
-                                            <input type="checkbox" onChange={e => {}} checked={this.handleChecked(id, this.props.categoriesAction)} onClick={(e) => this.handleCheckbox(e, id)} />
+                                            <input type="checkbox"
+                                                onChange={e => {}}
+                                                checked={this.handleChecked(id, this.props.categoriesAction)}
+                                                onClick={(e) => this.handleCheckbox(e, id)} />
                                         </label>
                                         </td>
                                         <td>{id}</td>

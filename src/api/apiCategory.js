@@ -6,11 +6,7 @@ const fetchDataCategory = () => request().get(`${category}`);
 
 const saveCategory = (obj) => request().post(`${category}`, obj);
 
-const updateCategory = async (id, obj) => {
-    await request().put(`${category}/${id}`, {name: obj.name});
-
-    return true;
-}
+const updateCategoryApi = (id, obj) => request().put(`${category}/${id}`, {name: obj.name});
 
 const deleteCategory = async (id) => {
     await request().delete(`${category}/${id}`);
@@ -21,6 +17,6 @@ const deleteCategory = async (id) => {
 export {
     fetchDataCategory,
     saveCategory,
-    updateCategory,
+    updateCategoryApi,
     deleteCategory
 };
