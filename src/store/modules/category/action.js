@@ -3,7 +3,7 @@ import {
     fetchDataCategory,
     saveCategory,
     updateCategoryApi,
-    deleteCategory
+    deleteCategoryApi
 } from '../../../api/apiCategory';
 
 export const fetchCategories = () => {
@@ -91,4 +91,15 @@ export const actUpdateCategory = (id, category) => (
         id,
         category
     }
+)
+
+export const deleteCategory = (ids) => (
+    dispatch => (
+        deleteCategoryApi(ids)
+            .then(() => (
+                fetchDataCategory()
+                    .then((res) => dispatch(actFetchCategories(res.data)))
+                )
+            )
+    )
 )

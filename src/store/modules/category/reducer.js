@@ -32,8 +32,6 @@ const categoryReducer = (state = categoryInitialState, action) => {
                 categories,
                 category
             }
-        case types.DELETE_CATEGORY:
-            return state
         case types.SHOW_FORM:
             return {...state, showForm: !state.showForm}
         case types.PUSH_CATEGORY:
@@ -79,6 +77,7 @@ const updateCategory = (categories, newCategory) => {
         if (category.id === newCategory.id) {
             categories[key] = newCategory
         }
+        return categories;
     })
 
     return categories;

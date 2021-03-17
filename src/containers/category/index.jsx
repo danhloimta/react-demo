@@ -8,7 +8,8 @@ import {
     createCategory,
     pushCategoryAction,
     editCategory,
-    updateCategory
+    updateCategory,
+    deleteCategory
 } from '../../store/modules/category/action'
 
 class CategoryList extends Component {
@@ -34,6 +35,12 @@ class CategoryList extends Component {
         this.props.editCategory(categoryEdit)
     }
 
+    handleDelete () {
+        if (window.confirm('Are you sure?')) {
+            this.props.deleteCategory(this.props.categoriesAction)
+        }
+    }
+
     render () {
         return (
             <div className="container">
@@ -44,13 +51,14 @@ class CategoryList extends Component {
                 <div className="action">
                     <div className="float-left mb-3">
                         <button className="btn btn-success mr-1"
-                            disabled={ this.props.categoriesAction.length > 1 || this.props.categoriesAction.length === 0}
+                            disabled={ this.props.categoriesAction.length > 1 || this.props.categoriesAction.length === 0 || this.props.showForm || this.props.categories.length === 0}
                             onClick={(e) => { this.getDataFormEdit() }}
                         >
                             Edit
                         </button>
                         <button className="btn btn-danger"
-                            disabled={ this.props.categoriesAction.length === 0}
+                            disabled={ this.props.categoriesAction.length === 0 || this.props.categories.length === 0}
+                            onClick={() => this.handleDelete()}
                         >
                             Delete
                         </button>
@@ -106,6 +114,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         updateCategory: (id, category) => {
             dispatch(updateCategory(id, category))
+        },
+        deleteCategory: (ids) => {
+            dispatch(deleteCategory(ids))
         }
     }
 }
